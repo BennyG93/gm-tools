@@ -2,10 +2,10 @@ from selenium.webdriver.support.ui import Select
 
 def gm_hire(driver, totalTurns, turmsInterval, location):
     switcher={
-                'casino':'Go to Casino',
-                'coffee':'Go to Coffee',
-                'streets':'Go to the streets',
-                'training':'Go to training rooms'
+                'casino':0,
+                'coffee':1,
+                'streets':2,
+                'training':3
              }
     hireType = switcher.get(location,"Invalid hire location") # Select which hire button to press
     numberOfClicks = int(totalTurns/turmsInterval)
@@ -15,5 +15,6 @@ def gm_hire(driver, totalTurns, turmsInterval, location):
         i += 1
         turnSelector = Select(driver.find_element_by_name('use_turns'))
         turnSelector.select_by_value(str(turmsInterval))
-        hireButton = driver.find_element_by_xpath(f"//input[@name='hire_location'][@type='submit'][@value=\"{hireType}\"]")
-        hireButton.click()
+        hireButtons = driver.find_elements_by_name('hire_location')
+        clickButton = hireButtons[hireType]
+        clickButton.click()

@@ -17,6 +17,8 @@ def quickscout():
         total_turns = form.total_turns.data
         turns_interval = form.turns_interval.data
         scout_choices = form.scout_choices.data
-        gm_quickscout(username, password, total_turns, turns_interval, scout_choices)
+        headless = form.headless.data
+        print(headless)
+        gm_quickscout(username, password, total_turns, turns_interval, scout_choices, headless)
         return redirect(url_for('quickscout'))
     return render_template('quickscout.html', form=form)
