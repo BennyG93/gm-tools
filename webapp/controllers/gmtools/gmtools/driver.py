@@ -2,13 +2,19 @@ import sys
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import pickle
 
-from . import login
-from . import hire
-
-def main(username, password, totalTurns, turmsInterval, location, headless):
+def gm_driver(headless, detached):
     options = Options()
-    options.headless = headless
+    if headless:
+        options.headless = True
+    else:
+        options.headless = False
+
+    if detached:
+        options.add_experimental_option("detach", True)
+    else:
+        options.add_experimental_option("detach", False)
 
     if getattr(sys, 'frozen', False):
         chromedriver_folder = os.path.join(sys._MEIPASS, 'webapp/controllers/bin/chromedriver')
@@ -16,5 +22,4 @@ def main(username, password, totalTurns, turmsInterval, location, headless):
     else:
         driver = webdriver.Chrome(chrome_options=options)
 
-    login.gm_login(driver, username, password)
-    hire.gm_hire(driver, totalTurns, turmsInterval, location)
+    return driver
